@@ -20,7 +20,7 @@ app.post("/user-post-to-db", async (req,res) => {
 
   try {
     const result = await pool.query(
-      "INSERT INTO user_post_data (user_name, amp_tag_name, post_content) VALUES ($1, $2, $3)",[user_name, amp_tag_name, post_content]
+      `INSERT INTO public.user_post_data (user_name, amp_tag_name, post_content) VALUES ($1, $2, $3) RETURNING *`,[user_name, amp_tag_name, post_content]
     );
     res.json(result.rows[0]);
   } catch (err) {
@@ -34,7 +34,7 @@ app.get("/post", async (req,res) => {
   try {
     // const result = await pool.query("SELECT * FROM users ORDER BY id DESC");
     const result = await pool.query(
-      "SELECT id, user_name, amp_tag_name, post_content, TO_CHAR(created_at, 'HH:MI AM') AS time, TO_CHAR(created_at, 'DD Mon YYYY') AS date FROM user_post_data ORDER BY id DESC"
+      `SELECT id, user_name, amp_tag_name, post_content, TO_CHAR(created_at, 'HH:MI AM') AS time, TO_CHAR(created_at, 'DD Mon YYYY') AS date FROM public.user_post_data ORDER BY id DESC`
     )
     res.json(result.rows);
   } catch (err) {
