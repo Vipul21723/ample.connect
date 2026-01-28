@@ -1,0 +1,2 @@
+# ample.connect
+Global Connect
